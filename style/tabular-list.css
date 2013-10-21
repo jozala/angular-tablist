@@ -1,0 +1,35 @@
+@CHARSET "UTF-8";
+
+.tabular-list {
+    list-style: none;
+    padding: 0;
+}
+
+.tabular-list li {
+    border-top: 1px solid #000000; /* TODO for removal - added only for development */
+}
+
+.tabular-list li span.cell {
+    display: inline-block;
+    width: 200px;
+}
+
+.tabular-list li span:nth-child(2) {
+    width: 400px;
+}
+
+.tabular-list .tablist-expander {
+    display: inline-block;
+    width: 16px;
+    height: 13px;
+    margin-left: -16px;
+    cursor: pointer;
+}
+
+.tabular-list .expanded {
+    background-image: url('../static/img/treetable/collapse.png');
+}
+
+.tabular-list .collapsed {
+    background-image: url('../static/img/treetable/expand.png');
+}
