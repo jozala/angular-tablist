@@ -7,7 +7,7 @@
   "main": "tablist.js",
   "license": "GPLv2",
   "homepage": "aetas.pl",
-  "private": true,
+  "private": false,
   "ignore": [
     "**/.*",
     "node_modules",
