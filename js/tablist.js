@@ -24,7 +24,7 @@ function TabListCtrl($scope, TableService) {
         var element = {"id": "1", "name": "Main Cell", "after": "sup-after", "children": []};
         $scope.table.push(element);
     };
-    $scope.template = "<cell>{{ row.id }}</cell><cell>{{ row.name }}</cell><cell>{{ row.after }}</cell>";
+    $scope.template = '<row children="row.children" row="row" ng-repeat="row in children"><cell>{{ row.id }}</cell><cell>{{ row.name }}</cell><cell>{{ row.after }}</cell></row>';
 };
 
 app.directive("tablist", function () {
@@ -138,10 +138,8 @@ app.directive("row", function ($compile) {
                     var tablistCtrl = $controllers[0];
                     $scope.template = tablistCtrl.getTemplate();
                     if (angular.isArray($scope.children) && $scope.children.length > 0) {
-                        $compile("<tablist main-column='mainColumn' indent='indent' expanded='expanded' template='template'>"+
-                                "<row children='row.children' row='row' ng-repeat='row in children'>" +
+                        $compile("<tablist main-column='mainColumn' indent='indent' expanded='expanded' template='template'>" +
                                     $scope.template +
-                                "</row>" +
                                 "</tablist>")($scope, function(cloned) {
                             $element.append(cloned);
                         });
