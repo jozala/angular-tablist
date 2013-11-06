@@ -89,7 +89,7 @@ app.directive("row", function ($compile) {
             row: "=",
             children: "="
         },
-        template: "<li><span ng-transclude></span></li>",
+        template: "<li class='row'><span ng-transclude></span></li>",
         controller: function ($scope, $element) {
             this.setExpandedInit = function (isExpanded) {
                 this.expanded = isExpanded;
@@ -145,7 +145,7 @@ app.directive("row", function ($compile) {
                         });
                     }
                 }
-            }
+            };
         }
     };
 });
@@ -156,7 +156,7 @@ app.directive("cell", function () {
         require: "^row",
         replace: true,
         transclude: true,
-        template: "<span class='cell'><expander /><span ng-transclude></span></span>",
+        template: "<span class='cell'><expander /><span class='cell-content' ng-transclude></span></span>",
         controller: function($scope, $element) {
             $scope.isMainColumn = function() {
                 return $scope.rowCtrl.getMainColumnNumber() == $element.index();
@@ -171,6 +171,10 @@ app.directive("cell", function () {
 
                     var indent = rowCtrl.getIndent();
                     var level = rowCtrl.getLevel();
+                    if (scope.isMainColumn()) {
+                        iElement.addClass("main-column");
+                    }
+                    
                     if (scope.isMainColumn() && level >= 1) {
                         var levelIndentation = (indent * level) + "px";
                         iElement.css("padding-left", "+=" + levelIndentation);
