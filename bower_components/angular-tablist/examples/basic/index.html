@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Angular TabList Basic Example</title>
+
+    <link rel="stylesheet" type="text/css" href="../../dist/style/angular-tablist.css">
+</head>
+<body ng-app="tablistExample" ng-controller="TabListCtrl">
+
+
+<script type="text/ng-template" id="table_renderer.html">
+    <span>
+            <cell style="width:40px;">{{row.id}}</cell>
+            <cell class="main-column">{{row.name}}</cell>
+            <cell style="width: 120px;">{{row.after}}</cell>
+            <cell style="width: 120px;" ng-click="addChildRow(row); expand()"><a href="#">add child row</a></cell>
+        </span>
+    <div class="children">
+        <tablist>
+            <row ng-repeat="row in row.children" ng-include="'table_renderer.html'">
+            </row>
+        </tablist>
+    </div>
+</script>
+
+<div>
+    <tablist indent="15" expanded="false">
+        <row ng-repeat="row in table" ng-include="'table_renderer.html'"></row>
+    </tablist>
+    <button style="float: right;" class="btn btn-lg btn-success" ng-click="addElement()">Add row</button>
+    <div class="clearfix"></div>
+</div>
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.0-beta.2/angular.min.js"></script>
+<script type="text/javascript" src="../../dist/angular-tablist.js"></script>
+<script type="text/javascript" src="tablist-example.js"></script>
+
+
+</body>
+</html>

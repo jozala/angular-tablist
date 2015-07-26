@@ -7,6 +7,7 @@
 
     <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="bower_components/angular-tablist/dist/style/angular-tablist.css">
+    <link rel="stylesheet" type="text/css" href="bower_components/angular-tablist/examples/drag-and-drop/style/angular-tablist-example-draganddrop.css">
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
 </head>
@@ -25,7 +26,7 @@
     <div class="row">
         <div class="col-md-3">
             <h3>Why</h3>
-            <p>HTML does not have component which is a tabular but in the same time can have multiple nested levels.</p>
+            <p>HTML does not have component which is tabular but in the same time can have multiple nested levels.</p>
         </div>
         <div class="col-md-3">
             <h3>What</h3>
@@ -37,7 +38,7 @@
             <h3>Features</h3>
             <ul>
                 <li>Behaves like an HTML table</li>
-                <li>Unlimited level of children</li>
+                <li>Unlimited levels of children</li>
                 <li>Sorting of the elements</li>
                 <li>Easy to extend functionality (e.g. Drag & Drop or in-line editing)</li>
             </ul>
@@ -55,7 +56,7 @@
     <div id="example-simple" class="row" ng-app="tablistExample" ng-controller="TabListCtrl">
         <div class="col-md-7">
             <h3>Basic example:</h3>
-            <p>You can find full source code for this example on <a href="https://github.com/maniekq/angular-tablist/tree/master/example/basic">GitHub</a>.</p>
+            <p>You can find full source code for this example on <a href="https://github.com/maniekq/angular-tablist/tree/master/examples/basic">GitHub</a>.</p>
             <div class="demo-container">
                 <script type="text/ng-template" id="table_renderer.html">
                     <span>
@@ -87,39 +88,45 @@
             <pre class="code">{{ table | json }}</pre>
         </div>
     </div>
-    <div id="example-with-dnd" class="row" ng-controller="TabListCtrlWithDragAndDrop">
+    <div id="example-with-dnd" class="row" ng-app="testProject" ng-controller="ExampleCtrl">
         <div class="col-md-7">
             <h3>Drag & Drop example:</h3>
-            <p>You can find full source code for this example on <a href="https://github.com/maniekq/angular-tablist/tree/master/example/draganddrop">GitHub</a>.</p>
+            <p>This example is using jQuery UI library for Drag & Drop functionality.</p>
+            <p>You can find full source code for this example on <a href="https://github.com/maniekq/angular-tablist/tree/master/examples/drag-and-drop">GitHub</a>.</p>
             <div class="demo-container">
-                <script type="text/ng-template" id="table_renderer_drag_and_drop.html">
+                <script type="text/ng-template" id="table_renderer_draganddrop.html">
                     <span>
-                <cell style="width:40px;">{{row.id}}</cell>
-                <cell class="main-column">{{row.name}}</cell>
-                <cell style="width: 120px;">{{row.after}}</cell>
-                <cell style="width: 120px;" ng-click="addChildRow(row); expand()"><a href="#">add child row</a></cell>
-            </span>
-                    <div class="children">
+                        <cell class="taskTick">
+                            <input type="checkbox" ng-model="task.finished"/>
+                        </cell>
+                        <cell class="taskTitle main-column" quick-edit ng-model="task.title">{{task.title}}</cell>
+                        <cell class="taskDueDate">{{ task.dueDate | date: 'dd-MM-yyyy' }}</cell>
+                        <cell class="taskAction glyphicon glyphicon-plus" aria-hidden="true" ng-click="createSubtask(task); expand()"></cell>
+                        <cell class="taskAction glyphicon glyphicon-remove" aria-hidden="true" ng-click="delete(task)"></cell>
+                    </span>
+                    <div class="subtasks">
                         <tablist>
-                            <row ng-repeat="row in row.children" ng-include="'table_renderer_drag_and_drop.html'">
+                            <row ng-repeat="task in task.children | orderBy:['dueDate']:false" ng-include="'table_renderer_draganddrop.html'"
+                                 droppable="{targetCollection: task.children, target: task, onDrop: moveSubtaskToTask }" draggable="task">
                             </row>
                         </tablist>
                     </div>
                 </script>
 
-                <div>
-                    <tablist indent="15" expanded="false">
-                        <row ng-repeat="row in table" ng-include="'table_renderer_drag_and_drop.html'">
-                        </row>
-                    </tablist>
-                    <button style="float: right;" class="btn btn-lg btn-success" ng-click="addElement()">Add row</button>
-                    <div class="clearfix"></div>
-                </div>
+                <span class="tasklist-info" ng-if="tasks.length == 0">
+                    All tasks has been deleted. Refresh the page to reset.
+                </span>
+                <tablist indent="15" expanded="false">
+                    <li droppable="{targetCollection: null, target: task, onDrop: moveSubtaskTopLevel }" style="height: 20px">DROP HERE TO MOVE TO TOP LEVEL</li>
+                    <row ng-repeat="task in tasks | orderBy:['dueDate']:false"
+                         droppable="{targetCollection: task.children, target: task, onDrop: moveSubtaskToTask }" draggable="task" ng-include="'table_renderer_draganddrop.html'">
+                    </row>
+                </tablist>
             </div>
         </div>
         <div class="col-md-5">
             <h3>Data:</h3>
-            <pre class="code">{{ table | json }}</pre>
+            <pre class="code">{{ tasks | json }}</pre>
         </div>
     </div>
     <div id="installation" class="row">
@@ -147,7 +154,7 @@
             <h4>Install manually</h4>
             <ol>
                 <li>Go to <a href="https://github.com/maniekq/angular-tablist/releases">Angular TabList download page</a>.</li>
-                <li>Download latest version (currently 1.1.0).</li>
+                <li>Download latest version (currently 1.1.1).</li>
                 <li>Extract archive into your project.</li>
                 <li>Add Angular TabList JS script to your HTML file:
                     <xmp><script type="text/javascript" src="angular-tablist/dist/angular-tablist.js"></script></xmp>
@@ -183,7 +190,7 @@
 </tablist>
 </div>
             <h4>How to use (dynamic table)</h4>
-            <p>You can find full source code for this example on <a href="https://github.com/maniekq/angular-tablist/tree/master/example/tutorial">GitHub</a>.</p>
+            <p>You can find full source code for this example on <a href="https://github.com/maniekq/angular-tablist/tree/master/examples/tutorial">GitHub</a>.</p>
             <ol>
                 <li>Define template for row in your HTML file (place does not matter)
 <div hljs><script type="text/ng-template" id="table_template.html">
@@ -219,16 +226,18 @@
 </tablist>
 </div>
                 </li>
-                <li>You can find full source code for this example on <a href="https://github.com/maniekq/angular-tablist/tree/master/example/tutorial">GitHub</a>.</li>
+                <li>You can find full source code for this example on <a href="https://github.com/maniekq/angular-tablist/tree/master/examples/tutorial">GitHub</a>.</li>
             </ol>
         </div>
     </div>
 </div>
 
 <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="bower_components/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript" src="bower_components/angular/angular.js"></script>
 <script type="text/javascript" src="bower_components/angular-tablist/dist/angular-tablist.js"></script>
-<script type="text/javascript" src="bower_components/angular-tablist/example/tablist-example.js"></script>
+<script type="text/javascript" src="bower_components/angular-tablist/examples/basic/tablist-example.js"></script>
+<script type="text/javascript" src="bower_components/angular-tablist/examples/drag-and-drop/js/main.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
 <script src="http://pc035860.github.io/angular-highlightjs/angular-highlightjs.min.js"></script>
 <script type="text/javascript" src="javascripts/main.js"></script>

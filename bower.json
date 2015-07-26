@@ -20,6 +20,7 @@
     "angular": "1.3.0-beta.2",
     "bootstrap": "~3.2.0",
     "jquery": "~2.1.1",
-    "angular-tablist": "~1.1.0"
+    "angular-tablist": "~1.1.1",
+    "jquery-ui": "~1.11.4"
   }
 }

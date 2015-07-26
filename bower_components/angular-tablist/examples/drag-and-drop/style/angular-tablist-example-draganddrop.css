@@ -1,0 +1,35 @@
+.tabular-list li span.taskTick {
+    width: 15px;
+    margin-left: 5px;
+}
+
+.tabular-list li span.main-column {
+    width: 400px;
+}
+
+.tabular-list li span.taskDueDate {
+    width: 120px;
+}
+
+.tabular-list li span.taskAction {
+    width: 40px;
+}
+
+.drop-hover {
+    background-color: gray;
+}
+
+.tabular-list .row>span:HOVER {
+    background-color: rgba(224, 224, 224, 0.6);
+}
+
+.tabular-list .row {
+    margin: 0;
+    vertical-align: middle;
+}
+
+.tabular-list .cell {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
