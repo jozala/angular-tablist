@@ -1,4 +1,4 @@
 Angular Tablist Basic Example
 =================================
 
-Please see http://maniekq.github.io/angular-tablisti#example-simple for more information.
+Please see http://maniekq.github.io/angular-tablist#example-simple for more information.
