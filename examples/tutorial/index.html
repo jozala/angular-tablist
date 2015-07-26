@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Angular TabList Example</title>
+    <link rel="stylesheet" type="text/css" href="../../dist/style/angular-tablist.css">
+</head>
+<body ng-app="testProject" ng-controller="ExampleCtrl">
+
+    <script type="text/ng-template" id="table_template.html">
+        <span> <!-- template for row -->
+            <cell>{{item.number}}</cell> <!-- display item.number in the first column in each row -->
+            <cell class="main-column">{{item.name}}</cell> <!-- display item.name in the second column in each row -->
+            <cell>{{ item.lastModified | date: 'dd-MM-yyyy' }}</cell><!-- display item.modified in the third column in each row and format it to the given date format -->
+            <cell class="action delete" ng-click="delete(item)">DELETE</cell> <!-- display delete icon which calls "delete" function on click -->
+            <cell class="action subitem" ng-click="addSubItem(item); expand()">ADD</cell> <!-- display icon to add child by calling "addSubItem" function and expand children on click -->
+        </span>
+        <div class="itemChildren"> <!-- template for children -->
+            <tablist>
+                <row ng-repeat="item in item.children" ng-include="'table_template.html'"> <!-- specifies "item.children" as a source of children -->
+                </row>
+            </tablist>
+        </div>
+    </script>
+
+    <tablist indent="15" expanded="false"> <!-- Here the table will be rendered -->
+        <row ng-repeat="item in items" ng-include="'table_template.html'"></row>
+    </tablist>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.0-beta.2/angular.min.js"></script>
+    <script type="text/javascript" src="../../dist/angular-tablist.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+</body>
+</html>

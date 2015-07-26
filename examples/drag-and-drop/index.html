@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Angular TabList Drag & Drop Example</title>
+    <link rel="stylesheet" type="text/css" href="../../dist/style/angular-tablist.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="style/angular-tablist-example-draganddrop.css">
+</head>
+<body ng-app="testProject" ng-controller="ExampleCtrl">
+
+    <script type="text/ng-template" id="table_renderer.html">
+        <span>
+                        <cell class="taskTick">
+                            <input type="checkbox" ng-model="task.finished"/>
+                        </cell>
+                        <cell class="taskTitle main-column" quick-edit ng-model="task.title">{{task.title}}</cell>
+                        <cell class="taskDueDate">{{ task.dueDate | date: 'dd-MM-yyyy' }}</cell>
+                        <cell class="taskAction glyphicon glyphicon-plus" aria-hidden="true" ng-click="createSubtask(task); expand()"></cell>
+                        <cell class="taskAction glyphicon glyphicon-remove" aria-hidden="true" ng-click="delete(task)"></cell>
+                    </span>
+        <div class="subtasks">
+            <tablist>
+                <row ng-repeat="task in task.children | orderBy:['dueDate']:false" ng-include="'table_renderer.html'"
+                     droppable="{targetCollection: task.children, target: task, onDrop: moveSubtaskToTask }" draggable="task">
+                </row>
+            </tablist>
+        </div>
+    </script>
+
+
+    <span class="tasklist-info" ng-if="tasks.length == 0">
+        All tasks has been deleted. Refresh the page to reset.
+    </span>
+
+    <tablist indent="15" expanded="false">
+        <li droppable="{targetCollection: null, target: task, onDrop: moveSubtaskTopLevel }" style="height: 20px">DROP HERE TO MOVE TO TOP LEVEL</li>
+        <row ng-repeat="task in tasks | orderBy:['dueDate']:false"
+             droppable="{targetCollection: task.children, target: task, onDrop: moveSubtaskToTask }" draggable="task" ng-include="'table_renderer.html'">
+        </row>
+    </tablist>
+
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.0-beta.2/angular.min.js"></script>
+    <script type="text/javascript" src="../../dist/angular-tablist.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+</body>
+</html>
