@@ -3,11 +3,12 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Angular Tablist Module by Mariusz Jozala</title>
+    <title>Angular TabList Module by Mariusz Józala</title>
 
     <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="bower_components/angular-tablist/dist/style/angular-tablist.css">
     <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
 </head>
 <body>
 
@@ -21,9 +22,40 @@
             GitHub</a></p>
     </div>
 
-    <div class="row" ng-app="tablistExample" ng-controller="TabListCtrl">
-        <div class="col-md-8">
+    <div class="row">
+        <div class="col-md-3">
+            <h3>Why</h3>
+            <p>HTML does not have component which is a tabular but in the same time can have multiple nested levels.</p>
+        </div>
+        <div class="col-md-3">
+            <h3>What</h3>
+            <p>
+            "Angular TabList" is the AngularJS directive to present multi-level lists in the tabular form.
+            </p>
+        </div>
+        <div class="col-md-3">
+            <h3>Features</h3>
+            <ul>
+                <li>Behaves like an HTML table</li>
+                <li>Unlimited level of children</li>
+                <li>Sorting of the elements</li>
+                <li>Easy to extend functionality (e.g. Drag & Drop or in-line editing)</li>
+            </ul>
+        </div>
+        <div class="col-md-3">
+            <h3>How:</h3>
+            <ol>
+                <li><a href="#example-simple">Basic example</a></li>
+                <li><a href="#example-with-dnd">Example with Drag & Drop</a></li>
+                <li><a href="#installation">Installation</a></li>
+                <li><a href="#usage">Usage</a></li>
+            </ol>
+        </div>
+    </div>
+    <div id="example-simple" class="row" ng-app="tablistExample" ng-controller="TabListCtrl">
+        <div class="col-md-7">
             <h3>Basic example:</h3>
+            <p>You can find full source code for this example on <a href="https://github.com/maniekq/angular-tablist/tree/master/example/basic">GitHub</a>.</p>
             <div class="demo-container">
                 <script type="text/ng-template" id="table_renderer.html">
                     <span>
@@ -50,9 +82,145 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-5">
             <h3>Data:</h3>
             <pre class="code">{{ table | json }}</pre>
+        </div>
+    </div>
+    <div id="example-with-dnd" class="row" ng-controller="TabListCtrlWithDragAndDrop">
+        <div class="col-md-7">
+            <h3>Drag & Drop example:</h3>
+            <p>You can find full source code for this example on <a href="https://github.com/maniekq/angular-tablist/tree/master/example/draganddrop">GitHub</a>.</p>
+            <div class="demo-container">
+                <script type="text/ng-template" id="table_renderer_drag_and_drop.html">
+                    <span>
+                <cell style="width:40px;">{{row.id}}</cell>
+                <cell class="main-column">{{row.name}}</cell>
+                <cell style="width: 120px;">{{row.after}}</cell>
+                <cell style="width: 120px;" ng-click="addChildRow(row); expand()"><a href="#">add child row</a></cell>
+            </span>
+                    <div class="children">
+                        <tablist>
+                            <row ng-repeat="row in row.children" ng-include="'table_renderer_drag_and_drop.html'">
+                            </row>
+                        </tablist>
+                    </div>
+                </script>
+
+                <div>
+                    <tablist indent="15" expanded="false">
+                        <row ng-repeat="row in table" ng-include="'table_renderer_drag_and_drop.html'">
+                        </row>
+                    </tablist>
+                    <button style="float: right;" class="btn btn-lg btn-success" ng-click="addElement()">Add row</button>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <h3>Data:</h3>
+            <pre class="code">{{ table | json }}</pre>
+        </div>
+    </div>
+    <div id="installation" class="row">
+        <div class="col-md-10">
+            <h3>Installation:</h3>
+            <h4>Install with Bower</h4>
+            Angular TabList is the Bower package, so if you're using Bower then simply add "angular-tablist" as a dependency.
+            <ol>
+                <li>
+                    Install Angular TabList as a dependency with Bower:
+                    <p><code>
+                        bower install angular-tablist -S
+                    </code></p>
+                </li>
+                <li>Add Angular TabList script to your HTML file:
+                    <xmp><script type="text/javascript" src="bower_components/angular-tablist/dist/angular-tablist.js"></script></xmp>
+                </li>
+                <li>Add Angular TabList CSS style file to your HTML file:
+                    <xmp><link rel="stylesheet" type="text/css" href="bower_components/angular-tablist/dist/style/angular-tablist.css"></xmp>
+                </li>
+                <li>Add "angular-tablist" as a requirements to your Angular module:
+                    <p><code>angular.module("myProjectModuleName", ['angular-tablist']);</code></p>
+                </li>
+            </ol>
+            <h4>Install manually</h4>
+            <ol>
+                <li>Go to <a href="https://github.com/maniekq/angular-tablist/releases">Angular TabList download page</a>.</li>
+                <li>Download latest version (currently 1.1.0).</li>
+                <li>Extract archive into your project.</li>
+                <li>Add Angular TabList JS script to your HTML file:
+                    <xmp><script type="text/javascript" src="angular-tablist/dist/angular-tablist.js"></script></xmp>
+                </li>
+                <li>Add Angular TabList CSS style file to your HTML file:
+                    <xmp><link rel="stylesheet" type="text/css" href="angular-tablist/dist/style/angular-tablist.css"></xmp>
+                </li>
+                <li>Add "angular-tablist" as a requirements to your Angular module:
+                    <p><code>angular.module("myProjectModuleName", ['angular-tablist']);</code></p>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div id="usage" class="row" ng-app="angular-tablist-example">
+        <div class="col-md-10">
+            <h3>Usage:</h3>
+            <h4>Description</h4>
+            <p>
+                Angular TabList has following structure in HTML, build out of AngularJS directives:
+<div hljs><tablist expanded="true"> <!-- root - possible to expand the tree on initialization -->
+    <row> <!-- Any number of rows -->
+        <cell></cell> <!-- Any number of cells in the row with content -->
+        <cell class="main-column"></cell> <!-- Cell marked as "main-column" will contain the "expand" button -->
+        <cell></cell>
+        <tablist> <!-- [optional] level 2 table with children for row (unlimited levels possible)-->
+            <row>
+                <cell></cell>
+                <cell></cell>
+                <cell></cell>
+            </row>
+        </tablist>
+    </row>
+</tablist>
+</div>
+            <h4>How to use (dynamic table)</h4>
+            <p>You can find full source code for this example on <a href="https://github.com/maniekq/angular-tablist/tree/master/example/tutorial">GitHub</a>.</p>
+            <ol>
+                <li>Define template for row in your HTML file (place does not matter)
+<div hljs><script type="text/ng-template" id="table_template.html">
+    <span> <!-- template for row -->
+         <cell>{{item.number}}</cell> <!-- display item.number in the first column in each row -->
+        <cell class="main-column">{{item.name}}</cell> <!-- column with "item.name" is a main column-->
+        <cell>{{ item.lastModified | date: 'dd-MM-yyyy' }}</cell>
+        <cell class="action delete" ng-click="delete(item)">DELETE</cell>
+        <cell class="action subitem" ng-click="addSubItem(item); expand()">ADD</cell>
+    </span>
+</script>
+</div>
+                </li>
+                <li>Add template for children to the template from previous point
+<div hljs><script type="text/ng-template" id="table_template.html">
+    <span> <!-- template for row -->
+       ... <!-- there should be template from previous point -->
+    </span>
+    <div class="itemChildren"> <!-- template for children -->
+        <tablist>
+            <!-- specifies "item.children" as a source of children -->
+            <row ng-repeat="item in item.children" ng-include="'table_template.html'">
+            </row>
+        </tablist>
+    </div>
+</script>
+</div>
+                </li>
+                <li>Add "tablist" in your HTML file where you want to have it rendered
+<div hljs>
+<tablist indent="15" expanded="false"> <!-- Here the table will be rendered -->
+    <row ng-repeat="item in items" ng-include="'table_template.html'"></row>
+</tablist>
+</div>
+                </li>
+                <li>You can find full source code for this example on <a href="https://github.com/maniekq/angular-tablist/tree/master/example/tutorial">GitHub</a>.</li>
+            </ol>
         </div>
     </div>
 </div>
@@ -61,5 +229,8 @@
 <script type="text/javascript" src="bower_components/angular/angular.js"></script>
 <script type="text/javascript" src="bower_components/angular-tablist/dist/angular-tablist.js"></script>
 <script type="text/javascript" src="bower_components/angular-tablist/example/tablist-example.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+<script src="http://pc035860.github.io/angular-highlightjs/angular-highlightjs.min.js"></script>
+<script type="text/javascript" src="javascripts/main.js"></script>
 </body>
 </html>
